@@ -181,7 +181,17 @@ const Main = ({ history }) => {
 
         <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-md-4">
           <Switch>
-            <Route path="/" exact component={Beranda} />
+            <Route
+              path="/"
+              exact
+              component={() => (
+                <Beranda
+                  {...{
+                    penggunaList,
+                  }}
+                />
+              )}
+            />
             <Route
               path="/pengguna"
               exact

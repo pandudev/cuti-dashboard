@@ -15,25 +15,21 @@ import {
 
 const Wrapper = styled.div`
   height: 100vh;
-  background-repeat: no-repeat;
-  background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+  background-color: #64b8fc;
+  // background-repeat: no-repeat;
+  // background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 `;
 
 const Button = styled.button`
   margin-top: 1rem;
-  font-weight: 700;
   height: 36px;
   -moz-user-select: none;
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
-  /*background-color: #4d90fe; */
-  background-color: rgb(104, 145, 162);
-  /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+  background-color: #177fe8;
   padding: 0px;
-  font-weight: 700;
   font-size: 14px;
-  height: 36px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -46,7 +42,7 @@ const Button = styled.button`
   &:hover,
   &:active,
   &:focus {
-    background-color: rgb(12, 97, 33);
+    background-color: #1374c4;
   }
 `;
 
@@ -67,13 +63,9 @@ const ReAuth = styled.span`
 
 const Card = styled.div`
   max-width: 350px;
-  padding: 40px 40px;
-  background-color: #f7f7f7;
-  /* just in case there no content*/
+  margin-bottom: 180px;
+  background-color: #f2f2f2;
   padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  /* shadows and rounded borders */
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   border-radius: 2px;
@@ -178,7 +170,7 @@ const Login = ({ history }) => {
   return (
     <Wrapper>
       <NotificationContainer />
-      <div className="container d-flex fadeIn">
+      <div className="container d-flex fadeIn align-items-center justify-content-center h-100">
         <Card>
           <ProfileImage
             id="profile-img"
@@ -205,7 +197,7 @@ const Login = ({ history }) => {
               required
             />
             <Button className="btn btn-lg btn-primary btn-block" type="submit">
-              Sign in
+              LOGIN
             </Button>
           </FormSignin>
         </Card>
