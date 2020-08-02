@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import firebaseDb from "./../../firebase";
+import { db } from "../../services/firebase";
 
 const Pengguna = (props) => {
-  console.log(props);
   const [penggunaList, setPenggunaList] = useState(props.penggunaList);
   const history = useHistory();
 
   const handleSearch = (e) => {
-    firebaseDb
-      .child("pengguna")
+    db.ref("pengguna")
       .orderByChild("nama")
       .startAt(e.target.value)
       .endAt(e.target.value + "\uf8ff")
       .on("value", (snapshot) => {
-        if (snapshot.val() != null) {
+        if (snapshot.val() !== null) {
           setPenggunaList(snapshot.val());
         } else {
           setPenggunaList(null);
@@ -22,13 +20,18 @@ const Pengguna = (props) => {
       });
   };
 
-  const handleEdit = (id) => {
-    props.editAction(id);
+  const handleEdit = (key) => {
+    props.editAction(key);
     history.push("/pengguna/form");
   };
 
-  const handleDelete = (id) => {
-    props.deleteAction(id);
+  const handleDetail = (key) => {
+    props.detailAction(key);
+    history.push("/pengguna/detail");
+  };
+
+  const handleDelete = (key) => {
+    props.deleteAction(key);
   };
 
   return (
@@ -45,7 +48,7 @@ const Pengguna = (props) => {
           </Link>
           <div className="input-group flex-nowrap search-bar">
             <div className="input-group-prepend">
-              <span className="input-group-text" id="addon-wrapping">
+              <span className="input-group-text" key="addon-wrapping">
                 <i className="fa fa-search"></i>
               </span>
             </div>
@@ -66,7 +69,7 @@ const Pengguna = (props) => {
           <thead>
             <tr>
               <th className="text-center">#</th>
-              <th>ID</th>
+              <th>NIP</th>
               <th>Nama</th>
               <th>Jenis Kelamin</th>
               <th>Email</th>
@@ -78,29 +81,36 @@ const Pengguna = (props) => {
           </thead>
           <tbody>
             {penggunaList !== null ? (
-              Object.keys(penggunaList).map((id, i) => {
+              Object.keys(penggunaList).map((key, i) => {
                 return (
-                  <tr key={id}>
+                  <tr key={key}>
                     <td className="text-center">{i + 1}</td>
-                    <td>{penggunaList[id].id}</td>
-                    <td>{penggunaList[id].nama}</td>
-                    <td>{penggunaList[id].jenisKelamin}</td>
-                    <td>{penggunaList[id].email}</td>
-                    <td>{penggunaList[id].telepon}</td>
-                    <td>{penggunaList[id].jabatan}</td>
-                    <td>{penggunaList[id].role}</td>
+                    <td>{penggunaList[key].nip}</td>
+                    <td>{penggunaList[key].nama}</td>
+                    <td>{penggunaList[key].jenisKelamin}</td>
+                    <td>{penggunaList[key].email}</td>
+                    <td>{penggunaList[key].telepon}</td>
+                    <td>{penggunaList[key].jabatan}</td>
+                    <td>{penggunaList[key].role}</td>
                     <td className="text-center">
                       <a
                         href="#"
-                        onClick={() => handleEdit(id)}
-                        className="mr-3"
+                        onClick={() => handleDetail(key)}
+                        className="mx-1 text-success"
+                      >
+                        <i className="fa fa-eye"></i>
+                      </a>
+                      <a
+                        href="#"
+                        onClick={() => handleEdit(key)}
+                        className="mx-1"
                       >
                         <i className="fa fa-pencil-alt"></i>
                       </a>
                       <a
                         href="#"
-                        onClick={() => handleDelete(id)}
-                        className="text-danger"
+                        onClick={() => handleDelete(key)}
+                        className="text-danger mx-1"
                       >
                         <i className="fa fa-trash"></i>
                       </a>

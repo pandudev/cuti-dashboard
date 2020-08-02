@@ -1,6 +1,6 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 
-var firebaseConfig = {
+var config = {
   apiKey: "AIzaSyDceaTHfJNIrVRHePLxaGt_9c--GttXPFg",
   authDomain: "cuti-request.firebaseapp.com",
   databaseURL: "https://cuti-request.firebaseio.com",
@@ -8,9 +8,9 @@ var firebaseConfig = {
   storageBucket: "cuti-request.appspot.com",
   messagingSenderId: "129213565390",
   appId: "1:129213565390:web:e05b4f8f9c757f21bd439f",
-  measurementId: "G-0243YK0YVY",
 };
-// Initialize Firebase
-var fireDB = firebase.initializeApp(firebaseConfig);
 
-export default fireDB.database().ref();
+firebase.initializeApp(config);
+
+export const auth = firebase.auth;
+export const db = firebase.database();

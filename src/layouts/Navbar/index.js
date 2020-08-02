@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { db } from "../../services/firebase";
 
-const Navbar = () => {
+const Navbar = ({ user }) => {
   return (
     <nav className="navbar navbar-dark sticky-top bg-primary  flex-md-nowrap p-0 shadow">
       <NavLink
@@ -27,7 +29,7 @@ const Navbar = () => {
         <li className="nav-item">
           <a className="nav-link  text-light" href="#">
             <i className="fa fa-user mr-2"></i>
-            Administrator
+            {user?.nama}
           </a>
         </li>
       </ul>

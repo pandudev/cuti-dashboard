@@ -160,3 +160,11 @@ body {
 .nav .nav-item .nav-link .fa {
   width: 15px;
 }
+
+.modal-backdrop {
+  z-index: 1000;
+}
+
+.modal-dialog {
+  z-index: 1090;
+}

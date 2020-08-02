@@ -1,7 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { signOut } from "../../services/authService";
 
-const Sidebar = () => {
+const Sidebar = ({ user }) => {
   return (
     <nav
       id="sidebarMenu"
@@ -11,9 +12,9 @@ const Sidebar = () => {
         <div className="container-fluid bg-danger text-light py-4">
           <div className="row">
             <div className="col-3">Nama</div>
-            <div className="col-9">: Administrator</div>
+            <div className="col-9">: {user?.nama}</div>
             <div className="col-3">Jabatan</div>
-            <div className="col-9">: HRD</div>
+            <div className="col-9">: {user?.jabatan}</div>
           </div>
         </div>
 
@@ -24,16 +25,18 @@ const Sidebar = () => {
               Beranda <span className="sr-only"></span>
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink
-              to="/pengguna"
-              activeClassName="active"
-              className="nav-link"
-            >
-              <i className="fa fa-user mr-2"></i>
-              Pengguna
-            </NavLink>
-          </li>
+          {user.role == "admin" ? (
+            <li className="nav-item">
+              <NavLink
+                to="/pengguna"
+                activeClassName="active"
+                className="nav-link"
+              >
+                <i className="fa fa-user mr-2"></i>
+                Pengguna
+              </NavLink>
+            </li>
+          ) : null}
           <li className="nav-item">
             <NavLink
               to="/laporan"
@@ -45,10 +48,17 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/logout" className="nav-link">
+            <Link
+              onClick={() => {
+                if (window.confirm("Yakin ingin logout?")) {
+                  signOut();
+                }
+              }}
+              className="nav-link"
+            >
               <i className="fa fa-sign-out-alt mr-2"></i>
               Logout
-            </NavLink>
+            </Link>
           </li>
         </ul>
         <div className="copyright p-3 text-center">

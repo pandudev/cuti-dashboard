@@ -2,43 +2,102 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 
 const PenggunaForm = (props) => {
-  const initialState = {
-    id: "",
+  const roleOptions = ["direktur", "admin", "pegawai"];
+
+  const initialPengguna = {
+    nip: "",
     nama: "",
     jenisKelamin: "laki-laki",
     telepon: "",
     email: "",
+    password: "",
     jabatan: "",
-    role: "pegawai",
+    role: roleOptions[2],
   };
 
-  const roleOptions = ["direktur", "admin", "pegawai"];
+  const passwords = {
+    password: "",
+    confirmPassword: "",
+  };
+
   const history = useHistory();
 
-  var [values, setValues] = useState(initialState);
+  const [password, setPassword] = useState(passwords);
+  var [pengguna, setPengguna] = useState(initialPengguna);
 
   useEffect(() => {
-    if (props.penggunaId == "") {
-      setValues({ ...initialState });
+    if (props.penggunaKey === "") {
+      setPengguna({ ...initialPengguna });
     } else {
-      setValues({
-        ...props.penggunaList[props.penggunaId],
+      setPengguna({
+        ...props.penggunaList[props.penggunaKey],
       });
     }
-  }, [props.penggunaId, props.penggunaList]);
+  }, [props.penggunaKey]);
 
   const handleInputChange = (e) => {
     let { name, value } = e.target;
-    setValues({
-      ...values,
+    setPengguna({
+      ...pengguna,
       [name]: value,
     });
   };
 
+  const handleInputPassword = (e) => {
+    let { name, value } = e.target;
+    setPassword({
+      ...password,
+      [name]: value,
+    });
+
+    setPengguna({
+      ...pengguna,
+      password: password.password,
+    });
+  };
+
+  const formValidation = () => {
+    let isValid = true;
+    let error = [];
+
+    for (let key in pengguna) {
+      if (pengguna[key] === "") {
+        error.push("Mohon isi " + key);
+        isValid = false;
+      }
+    }
+
+    if (props.penggunaKey === "" && password.password.length < 6) {
+      error.push("Password minimal 6 karakter");
+      isValid = false;
+    } else if (
+      props.penggunaKey === "" &&
+      password.password !== password.confirmPassword
+    ) {
+      error.push("Password tidak sama, mohon ulangi");
+      isValid = false;
+    }
+
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    if (!re.test(String(pengguna.email).toLowerCase())) {
+      error.push("Email tidak valid");
+      isValid = false;
+    }
+
+    error.map((err) => {
+      props.NotificationManager.warning(err);
+    });
+    return isValid;
+  };
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    props.submitAction(values);
-    history.push("/pengguna");
+
+    if (formValidation()) {
+      props.submitAction(pengguna);
+      history.push("/pengguna");
+    }
   };
 
   const handleBack = () => {
@@ -51,27 +110,26 @@ const PenggunaForm = (props) => {
       <div className="fadeIn">
         <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 className="h3">
-            {props.penggunaId == "" ? "Tambah" : "Edit"} Pengguna
+            {props.penggunaKey == "" ? "Tambah" : "Edit"} Pengguna
           </h1>
         </div>
         <form autoComplete="off" onSubmit={handleFormSubmit}>
           <div className="form-group row">
             <label
-              htmlFor="id"
+              htmlFor="nip"
               className="col-sm-2 col-form-label col-form-label-sm"
             >
-              ID
+              NIP
             </label>
             <div className="col-sm-10">
               <input
-                type="text"
+                type="number"
                 className="form-control form-control-sm"
-                name="id"
-                value={values.id}
+                name="nip"
+                id="nip"
+                placeholder="Nomor Induk Pegawai"
+                value={pengguna.nip}
                 onChange={handleInputChange}
-                id="id"
-                placeholder="ID"
-                required
               />
             </div>
           </div>
@@ -89,9 +147,8 @@ const PenggunaForm = (props) => {
                 name="nama"
                 id="nama"
                 placeholder="Nama"
-                value={values.nama}
+                value={pengguna.nama}
                 onChange={handleInputChange}
-                required
               />
             </div>
           </div>
@@ -106,7 +163,7 @@ const PenggunaForm = (props) => {
               <select
                 className="form-control form-control-sm"
                 name="jenisKelamin"
-                value={values.jenisKelamin}
+                value={pengguna.jenisKelamin}
                 onChange={handleInputChange}
                 id="jenisKelamin"
               >
@@ -129,9 +186,8 @@ const PenggunaForm = (props) => {
                 id="telepon"
                 placeholder="Telepon"
                 name="telepon"
-                value={values.telepon}
+                value={pengguna.telepon}
                 onChange={handleInputChange}
-                required
               />
             </div>
           </div>
@@ -144,17 +200,59 @@ const PenggunaForm = (props) => {
             </label>
             <div className="col-sm-10">
               <input
-                type="email"
+                type="text"
                 className="form-control form-control-sm"
                 id="email"
                 placeholder="Email"
                 name="email"
-                value={values.email}
+                value={pengguna.email}
+                disabled={props.penggunaKey !== ""}
                 onChange={handleInputChange}
-                required
               />
             </div>
           </div>
+          {props.penggunaKey == "" ? (
+            <>
+              <div className="form-group row">
+                <label
+                  htmlFor="password"
+                  className="col-sm-2 col-form-label col-form-label-sm"
+                >
+                  Password
+                </label>
+                <div className="col-sm-10">
+                  <input
+                    type="password"
+                    className="form-control form-control-sm"
+                    id="password"
+                    placeholder="Password"
+                    name="password"
+                    value={password.password}
+                    onChange={handleInputPassword}
+                  />
+                </div>
+              </div>
+              <div className="form-group row">
+                <label
+                  htmlFor="confirmPassword"
+                  className="col-sm-2 col-form-label col-form-label-sm"
+                >
+                  Confirm Password
+                </label>
+                <div className="col-sm-10">
+                  <input
+                    type="password"
+                    className="form-control form-control-sm"
+                    id="confirmPassword"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    value={password.confirmPassword}
+                    onChange={handleInputPassword}
+                  />
+                </div>
+              </div>
+            </>
+          ) : null}
           <div className="form-group row">
             <label
               htmlFor="jabatan"
@@ -169,9 +267,8 @@ const PenggunaForm = (props) => {
                 id="jabatan"
                 placeholder="Jabatan"
                 name="jabatan"
-                value={values.jabatan}
+                value={pengguna.jabatan}
                 onChange={handleInputChange}
-                required
               />
             </div>
           </div>
@@ -186,8 +283,9 @@ const PenggunaForm = (props) => {
               <select
                 className="form-control form-control-sm"
                 name="role"
-                value={values.role}
+                value={pengguna.role}
                 onChange={handleInputChange}
+                disabled={props.penggunaKey !== ""}
                 id="role"
               >
                 {roleOptions.map((role, i) => {
@@ -205,12 +303,12 @@ const PenggunaForm = (props) => {
               <button
                 onClick={() => handleBack()}
                 type="button"
-                className="btn btn-outline-primary"
+                className="btn btn-sm btn-outline-primary"
               >
                 <i className="fa fa-chevron-left mr-2"></i>
                 Kembali
               </button>
-              <button type="submit" className="btn btn-primary ml-3">
+              <button type="submit" className="btn btn-sm btn-primary ml-3">
                 <i className="fa fa-save mr-2"></i>
                 Simpan
               </button>
