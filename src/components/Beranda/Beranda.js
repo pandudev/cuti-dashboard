@@ -6,15 +6,17 @@ const Beranda = ({ penggunaList }) => {
   const [pengajuan, setpengajuan] = useState({});
   useEffect(() => {
     db.ref("pengajuan").on("value", (snapshot) => {
-      setpengajuan(snapshot.val());
+      if (snapshot.numChildren > 0) {
+        setpengajuan(snapshot.val());
+      }
     });
   }, []);
   return (
     <div className="pt-3 pb-2 mb-3 fadeIn">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container px-5">
-          <h1 class="display-4">Selamat Datang</h1>
-          <p class="lead">
+      <div className="jumbotron jumbotron-fluid">
+        <div className="container px-5">
+          <h1 className="display-4">Selamat Datang</h1>
+          <p className="lead">
             Halaman dashboard untuk manajemen pengguna / pegawai dan laporan
             cuti.
           </p>

@@ -168,3 +168,7 @@ body {
 .modal-dialog {
   z-index: 1090;
 }
+
+.bg-primary {
+  background-color: #13347a !important;
+}

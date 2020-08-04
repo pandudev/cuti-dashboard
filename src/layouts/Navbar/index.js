@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Link, NavLink } from "react-router-dom";
-import { useState } from "react";
-import { db } from "../../services/firebase";
+import config from "./../../config";
 
 const Navbar = ({ user }) => {
   return (
@@ -11,7 +10,7 @@ const Navbar = ({ user }) => {
         exact
         className="navbar-brand col-md-3 col-lg-2 mr-0 px-3"
       >
-        PT. ANGIN RIBUT
+        {config.namaPerusahaan}
       </NavLink>
       <button
         className="navbar-toggler position-absolute d-md-none collapsed"

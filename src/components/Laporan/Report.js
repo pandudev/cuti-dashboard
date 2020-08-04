@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { db } from "./../../services/firebase";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import moment from "moment";
 import "moment/locale/id";

@@ -1,6 +1,5 @@
 import React from "react";
 import { useCallback } from "react";
-import { useState } from "react";
 import { signIn } from "../../services/authService";
 import { useHistory, Redirect, withRouter } from "react-router-dom";
 import { useContext } from "react";
@@ -8,6 +7,8 @@ import { AuthContext } from "../../AuthContext";
 import styled from "styled-components";
 import { db } from "../../services/firebase";
 import { auth } from "firebase";
+import logo from "./../../assets/company-logo.png";
+import config from "./../../config";
 import {
   NotificationContainer,
   NotificationManager,
@@ -15,7 +16,7 @@ import {
 
 const Wrapper = styled.div`
   height: 100vh;
-  background-color: #64b8fc;
+  background-color: #134d7a;
   // background-repeat: no-repeat;
   // background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 `;
@@ -129,6 +130,22 @@ const FormControl = styled.input`
   }
 `;
 
+const CompanyInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 2rem;
+  text-align: center;
+`;
+
+const CompanyLogo = styled.img`
+  height: 80px;
+  width: auto;
+  margin-bottom: 1rem;
+`;
+
 const Login = ({ history }) => {
   const handleLogin = useCallback(
     async (event) => {
@@ -170,12 +187,17 @@ const Login = ({ history }) => {
   return (
     <Wrapper>
       <NotificationContainer />
-      <div className="container d-flex fadeIn align-items-center justify-content-center h-100">
+      <div className="container d-flex flex-column fadeIn align-items-center justify-content-center h-100">
+        <CompanyInfo>
+          <CompanyLogo src={logo} alt="" srcset="" />
+          <h5 className="text-danger">{config.namaPerusahaan}</h5>
+          <h5>CUTI ONLINE</h5>
+        </CompanyInfo>
         <Card>
-          <ProfileImage
+          {/* <ProfileImage
             id="profile-img"
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          />
+          /> */}
           <ProfileName id="profile-name"></ProfileName>
           <FormSignin autoComplete="off" onSubmit={handleLogin}>
             <ReAuth id="reauth-email"></ReAuth>

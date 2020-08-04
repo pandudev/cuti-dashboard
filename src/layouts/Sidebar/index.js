@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { signOut } from "../../services/authService";
+import config from "./../../config";
 
 const Sidebar = ({ user }) => {
   return (
@@ -62,7 +63,7 @@ const Sidebar = ({ user }) => {
           </li>
         </ul>
         <div className="copyright p-3 text-center">
-          &copy; PT. Angin Ribut 2020
+          &copy; {config.namaPerusahaan} {new Date().getFullYear()}
         </div>
       </div>
     </nav>
