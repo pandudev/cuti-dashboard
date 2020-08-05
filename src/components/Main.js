@@ -20,7 +20,7 @@ import Pengguna from "./Pengguna/Pengguna";
 import Beranda from "./Beranda/Beranda";
 import Sidebar from "../layouts/Sidebar";
 import Navbar from "../layouts/Navbar";
-import { db, auth } from "../services/firebase";
+import { db, auth, secondaryApp } from "../services/firebase";
 import { AuthContext } from "../AuthContext";
 
 const Main = ({ history }) => {
@@ -38,19 +38,15 @@ const Main = ({ history }) => {
         .child(key)
         .child(thisYear)
         .on("value", (snapshot) => {
-          if (snapshot.val() == null) {
+          if (snapshot.val() == null && penggunaList[key].role != "direktur") {
             db.ref("cuti")
               .child(key)
               .child(thisYear)
               .set(
                 {
-                  cutiTahunan:
-                    penggunaList[key].role === "direktur" ? null : 12,
+                  cutiTahunan: 12,
                   cutiHamil:
-                    penggunaList[key].role !== "direktur" &&
-                    penggunaList[key].jenisKelamin === "perempuan"
-                      ? 90
-                      : 0,
+                    penggunaList[key].jenisKelamin == "perempuan" ? 90 : 0,
                 },
                 (err) => {
                   if (err) {
@@ -85,43 +81,45 @@ const Main = ({ history }) => {
 
   const submitAction = async (pengguna) => {
     if (penggunaKey == "") {
-      await signUp(pengguna.email, pengguna.password).then((val) => {
-        pengguna.password = null;
-        db.ref("pengguna")
-          .child(val.user.uid)
-          .set(pengguna, (err) => {
-            if (err) {
-              console.log(err);
-              NotificationManager.error("Data pengguna gagal disimpan");
-            } else {
-              NotificationManager.success("Data pengguna telah disimpan");
-            }
-          });
-
-        var thisYear = new Date().getFullYear().toString();
-
-        db.ref("cuti")
-          .child(val.user.uid)
-          .child(thisYear)
-          .set(
-            {
-              cutiTahunan: pengguna.role === "direktur" ? null : 12,
-              cutiHamil:
-                pengguna.role !== "direktur" &&
-                pengguna.jenisKelamin === "perempuan"
-                  ? 90
-                  : 0,
-            },
-            (err) => {
+      secondaryApp
+        .auth()
+        .createUserWithEmailAndPassword(pengguna.email, pengguna.password)
+        .then((val) => {
+          // await signUp(pengguna.email, pengguna.password).then((val) => {
+          pengguna.password = null;
+          db.ref("pengguna")
+            .child(val.user.uid)
+            .set(pengguna, (err) => {
               if (err) {
                 console.log(err);
-                NotificationManager.error("Data cuti gagal disimpan");
+                NotificationManager.error("Data pengguna gagal disimpan");
               } else {
-                NotificationManager.success("Data cuti telah disimpan");
+                NotificationManager.success("Data pengguna telah disimpan");
+                if (pengguna.role != "direktur") {
+                  db.ref("cuti")
+                    .child(val.user.uid)
+                    .child(new Date().getFullYear().toString())
+                    .set(
+                      {
+                        cutiTahunan: 12,
+                        cutiHamil:
+                          pengguna.jenisKelamin == "perempuan" ? 90 : 0,
+                      },
+                      (err) => {
+                        if (err) {
+                          console.log(err);
+                          NotificationManager.error("Data cuti gagal disimpan");
+                        } else {
+                          NotificationManager.success(
+                            "Data cuti telah disimpan"
+                          );
+                        }
+                      }
+                    );
+                }
               }
-            }
-          );
-      });
+            });
+        });
     } else {
       db.ref(`pengguna/${penggunaKey}`).set(pengguna, (err) => {
         if (err) {

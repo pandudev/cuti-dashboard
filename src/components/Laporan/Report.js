@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import moment from "moment";
 import "moment/locale/id";
+import config from "./../../config";
 moment.locale("id");
 
 const styles = StyleSheet.create({
@@ -60,11 +61,13 @@ const Report = (props) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.reportHeader}>
-          <Text>Palembang, {moment(new Date()).format("DD MMMM YYYY")}</Text>
+          <Text>
+            {config.kota}, {moment(new Date()).format("DD MMMM YYYY")}
+          </Text>
         </View>
         <View style={styles.reportDest}>
           <Text>Kepada Yth,</Text>
-          <Text>Direktur PT. XXXXXXX</Text>
+          <Text>Direktur {config.namaPerusahaan}</Text>
           <Text>Di tempat,</Text>
         </View>
         <View style={styles.reportBody}>

@@ -18,10 +18,12 @@ const PenggunaDetail = (props) => {
         .child(props.penggunaKey)
         .child(thisYear)
         .once("value", (snapshot) => {
-          setCuti({
-            cutiTahunan: snapshot.val().cutiTahunan,
-            cutiHamil: snapshot.val().cutiHamil,
-          });
+          if (snapshot.val() != null) {
+            setCuti({
+              cutiTahunan: snapshot.val().cutiTahunan,
+              cutiHamil: snapshot.val().cutiHamil,
+            });
+          }
         });
     }
   }, [props.penggunaKey]);

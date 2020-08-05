@@ -4,20 +4,21 @@ import { db } from "../../services/firebase";
 
 const Pengguna = (props) => {
   const [penggunaList, setPenggunaList] = useState(props.penggunaList);
+  const [showList, setshowList] = useState(props.penggunaList);
   const history = useHistory();
 
   const handleSearch = (e) => {
-    db.ref("pengguna")
-      .orderByChild("nama")
-      .startAt(e.target.value)
-      .endAt(e.target.value + "\uf8ff")
-      .on("value", (snapshot) => {
-        if (snapshot.val() !== null) {
-          setPenggunaList(snapshot.val());
-        } else {
-          setPenggunaList(null);
-        }
-      });
+    let fromData = penggunaList;
+    let newData = [];
+    let x = Object.keys(fromData).map((key) => {
+      if (
+        fromData[key].nama.toLowerCase().includes(e.target.value.toLowerCase())
+      ) {
+        newData.push(fromData[key]);
+      }
+    });
+
+    newData.length > 0 ? setshowList(newData) : setshowList(null);
   };
 
   const handleEdit = (key) => {
@@ -80,18 +81,18 @@ const Pengguna = (props) => {
             </tr>
           </thead>
           <tbody>
-            {penggunaList !== null ? (
-              Object.keys(penggunaList).map((key, i) => {
+            {showList !== null ? (
+              Object.keys(showList).map((key, i) => {
                 return (
                   <tr key={key}>
                     <td className="text-center">{i + 1}</td>
-                    <td>{penggunaList[key].nip}</td>
-                    <td>{penggunaList[key].nama}</td>
-                    <td>{penggunaList[key].jenisKelamin}</td>
-                    <td>{penggunaList[key].email}</td>
-                    <td>{penggunaList[key].telepon}</td>
-                    <td>{penggunaList[key].jabatan}</td>
-                    <td>{penggunaList[key].role}</td>
+                    <td>{showList[key].nip}</td>
+                    <td>{showList[key].nama}</td>
+                    <td>{showList[key].jenisKelamin}</td>
+                    <td>{showList[key].email}</td>
+                    <td>{showList[key].telepon}</td>
+                    <td>{showList[key].jabatan}</td>
+                    <td>{showList[key].role}</td>
                     <td className="text-center">
                       <a
                         href="#"

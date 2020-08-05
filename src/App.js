@@ -7,49 +7,53 @@ import Login from "./components/Login/Login";
 import Main from "./components/Main";
 import { AuthProvider } from "./AuthContext";
 import { useEffect } from "react";
-import { db } from "./services/firebase";
+import { db, secondaryApp } from "./services/firebase";
 import { signUp } from "./services/authService";
 import initAdmin from "./initAdmin";
 
 const App = () => {
   const createUser = async () => {
-    await signUp(initAdmin.email, initAdmin.password).then((val) => {
-      initAdmin.password = null;
-      db.ref("pengguna")
-        .child(val.user.uid)
-        .set(initAdmin, (err) => {
-          if (err) {
-            console.log(err);
-            // NotificationManager.error("Data pengguna gagal disimpan");
-          } else {
-            // NotificationManager.success("Data pengguna telah disimpan");
-          }
-        });
-
-      var thisYear = new Date().getFullYear().toString();
-
-      db.ref("cuti")
-        .child(val.user.uid)
-        .child(thisYear)
-        .set(
-          {
-            cutiTahunan: initAdmin.role === "direktur" ? null : 12,
-            cutiHamil:
-              initAdmin.role !== "direktur" &&
-              initAdmin.jenisKelamin === "perempuan"
-                ? 90
-                : 0,
-          },
-          (err) => {
+    secondaryApp
+      .auth()
+      .createUserWithEmailAndPassword(initAdmin.email, initAdmin.password)
+      .then((val) => {
+        // await signUp(initAdmin.email, initAdmin.password).then((val) => {
+        initAdmin.password = null;
+        db.ref("pengguna")
+          .child(val.user.uid)
+          .set(initAdmin, (err) => {
             if (err) {
               console.log(err);
-              // NotificationManager.error("Data cuti gagal disimpan");
+              // NotificationManager.error("Data pengguna gagal disimpan");
             } else {
-              // NotificationManager.success("Data cuti telah disimpan");
+              // NotificationManager.success("Data pengguna telah disimpan");
             }
-          }
-        );
-    });
+          });
+
+        // var thisYear = new Date().getFullYear().toString();
+
+        // db.ref("cuti")
+        //   .child(val.user.uid)
+        //   .child(thisYear)
+        //   .set(
+        //     {
+        //       cutiTahunan: initAdmin.role === "direktur" ? null : 12,
+        //       cutiHamil:
+        //         initAdmin.role !== "direktur" &&
+        //         initAdmin.jenisKelamin === "perempuan"
+        //           ? 90
+        //           : 0,
+        //     },
+        //     (err) => {
+        //       if (err) {
+        //         console.log(err);
+        //         // NotificationManager.error("Data cuti gagal disimpan");
+        //       } else {
+        //         // NotificationManager.success("Data cuti telah disimpan");
+        //       }
+        //     }
+        //   );
+      });
   };
 
   const initFunction = async () => {
@@ -58,7 +62,6 @@ const App = () => {
       .equalTo("admin")
       .once("value", (snapshot) => {
         if (snapshot.numChildren() < 1) {
-          console.log(initAdmin);
           createUser();
         }
       });

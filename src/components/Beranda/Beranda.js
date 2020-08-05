@@ -4,9 +4,10 @@ import { db } from "../../services/firebase";
 
 const Beranda = ({ penggunaList }) => {
   const [pengajuan, setpengajuan] = useState({});
+
   useEffect(() => {
     db.ref("pengajuan").on("value", (snapshot) => {
-      if (snapshot.numChildren > 0) {
+      if (snapshot.numChildren() > 0) {
         setpengajuan(snapshot.val());
       }
     });

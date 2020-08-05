@@ -1,16 +1,6 @@
 import firebase from "firebase";
 
-var config = {
-  apiKey: "AIzaSyDceaTHfJNIrVRHePLxaGt_9c--GttXPFg",
-  authDomain: "cuti-request.firebaseapp.com",
-  databaseURL: "https://cuti-request.firebaseio.com",
-  projectId: "cuti-request",
-  storageBucket: "cuti-request.appspot.com",
-  messagingSenderId: "129213565390",
-  appId: "1:129213565390:web:e05b4f8f9c757f21bd439f",
-};
-
-const config2 = {
+const config = {
   apiKey: "AIzaSyCoFMf1pywHUQyDkdpYVhTorNyHn7yHYuI",
   authDomain: "cutiebh-48919.firebaseapp.com",
   databaseURL: "https://cutiebh-48919.firebaseio.com",
@@ -21,7 +11,19 @@ const config2 = {
   measurementId: "G-E0GH2TM01Q",
 };
 
-firebase.initializeApp(config2);
+const oldConfig = {
+  apiKey: "AIzaSyDceaTHfJNIrVRHePLxaGt_9c--GttXPFg",
+  authDomain: "cuti-request.firebaseapp.com",
+  databaseURL: "https://cuti-request.firebaseio.com",
+  projectId: "cuti-request",
+  storageBucket: "cuti-request.appspot.com",
+  messagingSenderId: "129213565390",
+  appId: "1:129213565390:web:e05b4f8f9c757f21bd439f",
+  measurementId: "G-0243YK0YVY",
+};
+
+firebase.initializeApp(oldConfig);
+export const secondaryApp = firebase.initializeApp(oldConfig, "secondary");
 
 export const auth = firebase.auth;
 export const db = firebase.database();
