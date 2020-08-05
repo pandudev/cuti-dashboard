@@ -28,7 +28,13 @@ const Beranda = ({ penggunaList }) => {
           <div className="card text-white bg-primary">
             <div className="card-body">
               <h5 className="card-title">PENGAJUAN</h5>
-              <h1>{Object.keys(pengajuan).length}</h1>
+              <h1>
+                {
+                  Object.values(pengajuan).filter(
+                    (x) => x.statusCuti == "menunggu konfirmasi"
+                  ).length
+                }
+              </h1>
             </div>
           </div>
         </div>

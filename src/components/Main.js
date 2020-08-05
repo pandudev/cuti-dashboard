@@ -81,7 +81,7 @@ const Main = ({ history }) => {
 
   const submitAction = async (pengguna) => {
     if (penggunaKey == "") {
-      secondaryApp
+      await secondaryApp
         .auth()
         .createUserWithEmailAndPassword(pengguna.email, pengguna.password)
         .then((val) => {

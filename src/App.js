@@ -8,12 +8,11 @@ import Main from "./components/Main";
 import { AuthProvider } from "./AuthContext";
 import { useEffect } from "react";
 import { db, secondaryApp } from "./services/firebase";
-import { signUp } from "./services/authService";
 import initAdmin from "./initAdmin";
 
 const App = () => {
   const createUser = async () => {
-    secondaryApp
+    await secondaryApp
       .auth()
       .createUserWithEmailAndPassword(initAdmin.email, initAdmin.password)
       .then((val) => {
