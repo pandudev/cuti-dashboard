@@ -123,7 +123,7 @@ const PenggunaForm = (props) => {
             </label>
             <div className="col-sm-10">
               <input
-                type="number"
+                type="text"
                 className="form-control form-control-sm"
                 name="nip"
                 id="nip"

@@ -84,41 +84,47 @@ const Main = ({ history }) => {
       await secondaryApp
         .auth()
         .createUserWithEmailAndPassword(pengguna.email, pengguna.password)
-        .then((val) => {
-          // await signUp(pengguna.email, pengguna.password).then((val) => {
-          pengguna.password = null;
-          db.ref("pengguna")
-            .child(val.user.uid)
-            .set(pengguna, (err) => {
-              if (err) {
-                console.log(err);
-                NotificationManager.error("Data pengguna gagal disimpan");
-              } else {
-                NotificationManager.success("Data pengguna telah disimpan");
-                if (pengguna.role != "direktur") {
-                  db.ref("cuti")
-                    .child(val.user.uid)
-                    .child(new Date().getFullYear().toString())
-                    .set(
-                      {
-                        cutiTahunan: 12,
-                        cutiHamil:
-                          pengguna.jenisKelamin == "perempuan" ? 90 : 0,
-                      },
-                      (err) => {
-                        if (err) {
-                          console.log(err);
-                          NotificationManager.error("Data cuti gagal disimpan");
-                        } else {
-                          NotificationManager.success(
-                            "Data cuti telah disimpan"
-                          );
+        .catch((reason) => {
+          NotificationManager.error(reason.message);
+        })
+        .finally((val) => {
+          if (val != undefined) {
+            pengguna.password = null;
+            db.ref("pengguna")
+              .child(val.user.uid)
+              .set(pengguna, (err) => {
+                if (err) {
+                  console.log(err);
+                  NotificationManager.error("Data pengguna gagal disimpan");
+                } else {
+                  NotificationManager.success("Data pengguna telah disimpan");
+                  if (pengguna.role != "direktur") {
+                    db.ref("cuti")
+                      .child(val.user.uid)
+                      .child(new Date().getFullYear().toString())
+                      .set(
+                        {
+                          cutiTahunan: 12,
+                          cutiHamil:
+                            pengguna.jenisKelamin == "perempuan" ? 90 : 0,
+                        },
+                        (err) => {
+                          if (err) {
+                            console.log(err);
+                            NotificationManager.error(
+                              "Data cuti gagal disimpan"
+                            );
+                          } else {
+                            NotificationManager.success(
+                              "Data cuti telah disimpan"
+                            );
+                          }
                         }
-                      }
-                    );
+                      );
+                  }
                 }
-              }
-            });
+              });
+          }
         });
     } else {
       db.ref(`pengguna/${penggunaKey}`).set(pengguna, (err) => {

@@ -11,7 +11,7 @@ import { db, secondaryApp } from "./services/firebase";
 import initAdmin from "./initAdmin";
 
 const App = () => {
-  const createUser = async () => {
+  const createAdmin = async () => {
     await secondaryApp
       .auth()
       .createUserWithEmailAndPassword(initAdmin.email, initAdmin.password)
@@ -28,30 +28,6 @@ const App = () => {
               // NotificationManager.success("Data pengguna telah disimpan");
             }
           });
-
-        // var thisYear = new Date().getFullYear().toString();
-
-        // db.ref("cuti")
-        //   .child(val.user.uid)
-        //   .child(thisYear)
-        //   .set(
-        //     {
-        //       cutiTahunan: initAdmin.role === "direktur" ? null : 12,
-        //       cutiHamil:
-        //         initAdmin.role !== "direktur" &&
-        //         initAdmin.jenisKelamin === "perempuan"
-        //           ? 90
-        //           : 0,
-        //     },
-        //     (err) => {
-        //       if (err) {
-        //         console.log(err);
-        //         // NotificationManager.error("Data cuti gagal disimpan");
-        //       } else {
-        //         // NotificationManager.success("Data cuti telah disimpan");
-        //       }
-        //     }
-        //   );
       });
   };
 
@@ -61,7 +37,7 @@ const App = () => {
       .equalTo("admin")
       .once("value", (snapshot) => {
         if (snapshot.numChildren() < 1) {
-          createUser();
+          createAdmin();
         }
       });
   };
