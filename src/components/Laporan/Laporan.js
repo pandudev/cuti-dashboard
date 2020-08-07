@@ -16,6 +16,20 @@ const Laporan = () => {
 
   const [loadData, setLoadData] = useState(false);
 
+  function calculateBusinessDays(startDate, endDate) {
+    let workDays = 0;
+    let currentDay = moment(startDate);
+    let endDay = moment(endDate);
+
+    while (currentDay.isBefore(endDay)) {
+      if (currentDay.day() != 0) {
+        workDays++;
+      }
+      currentDay.add(1, "day");
+    }
+    return workDays;
+  }
+
   // set pengguna
   useEffect(() => {
     setLoadData(true);
@@ -83,9 +97,13 @@ const Laporan = () => {
           data.jenisKelamin = penggunaList[data.penggunaId]?.jenisKelamin;
           data.jabatan = penggunaList[data.penggunaId]?.jabatan;
           data.role = penggunaList[data.penggunaId]?.role;
-          data.lamaCuti = moment(
+          data.lamaCuti = calculateBusinessDays(
+            new Date(pengajuanList[key].tanggalMulaiCuti),
             new Date(pengajuanList[key].tanggalSelesaiCuti)
-          ).diff(new Date(pengajuanList[key].tanggalMulaiCuti), "days");
+          );
+          // data.lamaCuti = moment(
+          //   new Date(pengajuanList[key].tanggalSelesaiCuti)
+          // ).diff(new Date(pengajuanList[key].tanggalMulaiCuti), "days");
           list.push(data);
         }
       });
@@ -255,12 +273,7 @@ const Laporan = () => {
                                           )}
                                         </td>
                                         <td>{obj.jenisCuti}</td>
-                                        <td>
-                                          {moment(obj.tanggalSelesaiCuti).diff(
-                                            moment(obj.tanggalMulaiCuti),
-                                            "days"
-                                          ) + " hari"}
-                                        </td>
+                                        <td>{obj.lamaCuti}</td>
 
                                         <td>{obj.nama}</td>
                                         <td>{obj.nip}</td>

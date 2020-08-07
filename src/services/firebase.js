@@ -22,7 +22,7 @@ const oldConfig = {
   measurementId: "G-0243YK0YVY",
 };
 
-firebase.initializeApp(oldConfig);
+firebase.initializeApp(config);
 export const secondaryApp = firebase.initializeApp(oldConfig, "secondary");
 
 export const auth = firebase.auth;
