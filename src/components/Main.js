@@ -27,6 +27,7 @@ const Main = ({ history }) => {
   const [penggunaList, setpenggunaList] = useState({});
   const [penggunaKey, setPenggunaKey] = useState("");
   const [cUser, setCUser] = useState({});
+  const [deletedKey, setDeletedKey] = useState("");
 
   const thisYear = new Date().getFullYear().toString();
 

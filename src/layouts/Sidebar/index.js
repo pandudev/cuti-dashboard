@@ -50,7 +50,9 @@ const Sidebar = ({ user }) => {
           </li>
           <li className="nav-item">
             <Link
-              onClick={() => {
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
                 if (window.confirm("Yakin ingin logout?")) {
                   signOut();
                 }

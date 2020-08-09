@@ -16,16 +16,12 @@ const App = () => {
       .auth()
       .createUserWithEmailAndPassword(initAdmin.email, initAdmin.password)
       .then((val) => {
-        // await signUp(initAdmin.email, initAdmin.password).then((val) => {
         initAdmin.password = null;
         db.ref("pengguna")
           .child(val.user.uid)
           .set(initAdmin, (err) => {
             if (err) {
               console.log(err);
-              // NotificationManager.error("Data pengguna gagal disimpan");
-            } else {
-              // NotificationManager.success("Data pengguna telah disimpan");
             }
           });
       });
@@ -36,7 +32,6 @@ const App = () => {
       .orderByChild("role")
       .equalTo("admin")
       .once("value", (snapshot) => {
-        console.log(snapshot.numChildren());
         if (snapshot.numChildren() < 1) {
           createAdmin();
         }
