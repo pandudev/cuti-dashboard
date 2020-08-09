@@ -51,7 +51,7 @@ const Laporan = () => {
       .orderByChild("role")
       .once("value", (snap) => {
         snap.forEach((row) => {
-          if (row.val().role == "admin") {
+          if (row.val().role == "admin" && row.val().jabatan == "HRD") {
             sethrd(row.val().nama);
           }
 

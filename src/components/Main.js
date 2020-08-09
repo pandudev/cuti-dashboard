@@ -63,8 +63,17 @@ const Main = ({ history }) => {
   useEffect(() => {
     db.ref("pengguna").on("value", (snapshot) => {
       if (snapshot.val() != null) {
+        let data = {};
+        snapshot.forEach((x) => {
+          let key = x.key;
+          let val = x.val();
+
+          if (val.jabatan != "Super User") {
+            data[key] = val;
+          }
+        });
         setpenggunaList({
-          ...snapshot.val(),
+          ...data,
         });
 
         if (currentUser != null) {
