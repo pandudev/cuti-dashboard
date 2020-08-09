@@ -69,7 +69,7 @@ const Pengguna = (props) => {
         <table className="table table-hover table-bordered table-sm">
           <thead>
             <tr>
-              <th className="text-center">#</th>
+              <th className="text-center">No</th>
               <th>NIP</th>
               <th>Nama</th>
               <th>Jenis Kelamin</th>
@@ -122,7 +122,7 @@ const Pengguna = (props) => {
             ) : (
               <tr>
                 <td colSpan="9" className="text-center">
-                  Tidak ada data pengguna
+                  Data pengguna tidak ditemukan
                 </td>
               </tr>
             )}

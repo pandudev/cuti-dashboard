@@ -23,7 +23,7 @@ const oldConfig = {
 };
 
 firebase.initializeApp(config);
-export const secondaryApp = firebase.initializeApp(oldConfig, "secondary");
+export const secondaryApp = firebase.initializeApp(config, "secondary");
 
 export const auth = firebase.auth;
 export const db = firebase.database();

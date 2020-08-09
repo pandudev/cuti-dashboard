@@ -62,7 +62,7 @@ const Sidebar = ({ user }) => {
             </Link>
           </li>
         </ul>
-        <div className="copyright p-3 text-center">
+        <div className="copyright p-1 text-center">
           &copy; {config.namaPerusahaan} {new Date().getFullYear()}
         </div>
       </div>

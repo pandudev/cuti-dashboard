@@ -1,11 +1,11 @@
 const initAdmin = {
   nip: "",
-  nama: "admin",
+  nama: "admin-super-user",
   jenisKelamin: "laki-laki",
   telepon: "",
   email: "admin@cuti.com",
   password: "admin123",
-  jabatan: "HRD",
+  jabatan: "Super User",
   role: "admin",
 };
 

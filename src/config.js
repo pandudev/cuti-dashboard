@@ -1,5 +1,5 @@
 const Config = {
-  namaPerusahaan: "PT. MAJU MUNDUR",
+  namaPerusahaan: "PT. NAMA PERUSAHAAN",
   kota: "Palembang",
 };
 

@@ -240,7 +240,7 @@ const Laporan = () => {
                           <table className="table table-hover table-bordered table-sm">
                             <thead>
                               <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Tgl. Pengajuan</th>
                                 <th>Tgl. Cuti</th>
                                 <th>Jenis Cuti</th>

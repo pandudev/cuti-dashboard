@@ -84,10 +84,12 @@ const Main = ({ history }) => {
       await secondaryApp
         .auth()
         .createUserWithEmailAndPassword(pengguna.email, pengguna.password)
-        .catch((reason) => {
-          NotificationManager.error(reason.message);
-        })
-        .finally((val) => {
+        .then((val) => {
+          // console.log(err)
+          // console.log(val);
+          // if (val.u.message != "") {
+          //   NotificationManager.error(val.u.message);
+          // }
           if (val != undefined) {
             pengguna.password = null;
             db.ref("pengguna")

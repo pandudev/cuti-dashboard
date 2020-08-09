@@ -16,7 +16,7 @@ import {
 
 const Wrapper = styled.div`
   height: 100vh;
-  background-color: #134d7a;
+  background-color: #121257;
   // background-repeat: no-repeat;
   // background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
 `;
@@ -28,7 +28,7 @@ const Button = styled.button`
   -webkit-user-select: none;
   user-select: none;
   cursor: default;
-  background-color: #177fe8;
+  background-color: #121257;
   padding: 0px;
   font-size: 14px;
   -moz-border-radius: 3px;
@@ -43,7 +43,7 @@ const Button = styled.button`
   &:hover,
   &:active,
   &:focus {
-    background-color: #1374c4;
+    background-color: #e3143e;
   }
 `;
 
@@ -141,9 +141,9 @@ const CompanyInfo = styled.div`
 `;
 
 const CompanyLogo = styled.img`
-  height: 80px;
+  height: 160px;
   width: auto;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 `;
 
 const Login = ({ history }) => {
@@ -190,7 +190,7 @@ const Login = ({ history }) => {
       <div className="container d-flex flex-column fadeIn align-items-center justify-content-center h-100">
         <CompanyInfo>
           <CompanyLogo src={logo} alt="" srcset="" />
-          <h5 className="text-danger">{config.namaPerusahaan}</h5>
+          <h4><font color="red">{config.namaPerusahaan}</font></h4>
           <h5>CUTI ONLINE</h5>
         </CompanyInfo>
         <Card>

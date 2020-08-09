@@ -18,7 +18,7 @@ const Beranda = ({ penggunaList }) => {
         <div className="container px-5">
           <h1 className="display-4">Selamat Datang</h1>
           <p className="lead">
-            Halaman dashboard untuk manajemen pengguna / pegawai dan laporan
+            Halaman dashboard untuk manajemen pengguna / karyawan dan laporan
             cuti.
           </p>
         </div>
@@ -69,7 +69,7 @@ const Beranda = ({ penggunaList }) => {
         <div className="col-md-3">
           <div className="card text-white bg-info">
             <div className="card-body">
-              <h5 className="card-title">TOTAL PEGAWAI</h5>
+              <h5 className="card-title">TOTAL KARYAWAN</h5>
               <h1>{Object.keys(penggunaList).length}</h1>
             </div>
           </div>

@@ -69,13 +69,13 @@ const PenggunaDetail = (props) => {
             <div className="col-md-9 h6">: {pengguna.role}</div>
           </div>
           <div className="row">
-            <div className="col-md-3 h6">Cuti Tahunan</div>
+            <div className="col-md-3 h6">Sisa Cuti Tahunan</div>
             <div className="col-md-9 h6">
               : {cuti.cutiTahunan ? cuti.cutiTahunan + " hari" : "-"}
             </div>
           </div>
           <div className="row">
-            <div className="col-md-3 h6">Cuti Hamil</div>
+            <div className="col-md-3 h6">Sisa Cuti Melahirkan</div>
             <div className="col-md-9 h6">
               : {cuti.cutiHamil ? cuti.cutiHamil + " hari" : "-"}
             </div>

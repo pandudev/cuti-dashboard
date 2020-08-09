@@ -28,7 +28,7 @@ const Navbar = ({ user }) => {
         <li className="nav-item">
           <a className="nav-link  text-light" href="#">
             <i className="fa fa-user mr-2"></i>
-            {user?.nama}
+            {user?.nama} ({user?.role})
           </a>
         </li>
       </ul>

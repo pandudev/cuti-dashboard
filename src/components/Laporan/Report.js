@@ -7,24 +7,24 @@ moment.locale("id");
 
 const styles = StyleSheet.create({
   page: {
-    padding: "40pt",
-    fontSize: "10pt",
+    padding: "70pt",
+    fontSize: "11pt",
     fontFamily: "Helvetica",
-    lineHeight: 1.6,
+    lineHeight: 2,
   },
   reportHeader: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginBottom: "20pt",
+    marginBottom: "40pt",
   },
   reportDest: {
     display: "flex",
     flexDirection: "column",
-    marginBottom: "20pt",
+    marginBottom: "40pt",
   },
   reportBody: {
-    marginBottom: "50pt",
+    marginBottom: "70pt",
   },
   reportFooter: {
     display: "flex",
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     width: "70vw",
     marginHorizontal: "auto",
+    lineHeight: 1.5,
   },
   container: {
     width: "90vw",
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     marginRight: "10pt",
   },
   signer: {
-    marginBottom: "40pt",
+    marginBottom: "70pt",
   },
 });
 
@@ -71,7 +72,7 @@ const Report = (props) => {
           <Text>Di tempat,</Text>
         </View>
         <View style={styles.reportBody}>
-          <Text>Dengan Hormat</Text>
+          <Text>Dengan hormat,</Text>
           <Text>
             Sehubungan dengan {props.data.jenisCuti}, dengan ini saya:
           </Text>
@@ -91,7 +92,7 @@ const Report = (props) => {
             Mengajukan permohonan cuti selama {props.data.lamaCuti} hari pada
             tanggal {moment(props.data.tanggalMulaiCuti).format("DD MMMM YYYY")}{" "}
             s/d {moment(props.data.tanggalSelesaiCuti).format("DD MMMM YYYY")}{" "}
-            dikarenakan {props.data.keterangan}
+            dikarenakan {props.data.keterangan}.
           </Text>
           <Text>
             Demikian permohonan ini saya ajukan, atas perhatian dan

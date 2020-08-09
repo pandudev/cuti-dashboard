@@ -36,6 +36,7 @@ const App = () => {
       .orderByChild("role")
       .equalTo("admin")
       .once("value", (snapshot) => {
+        console.log(snapshot.numChildren());
         if (snapshot.numChildren() < 1) {
           createAdmin();
         }
